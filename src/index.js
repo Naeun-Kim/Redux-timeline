@@ -1,52 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { createStore, combineReducers } from 'redux';
-import timelineReducer, {
-  addTimeline,
-  removeTimeline,
-  editTimeline,
-  increseNextPage
-} from './timeline/state';
-import friendReducer, {
-  addFriend,
-  removeFriend,
-  editFriend
-} from './friend/state';
+import store from './common/store';
+import { Provider } from 'react-redux';
 import TimelineMain from './timeline/container/TimelineMain';
 import FriendMain from './friend/container/FriendMain';
 
-const reducer = combineReducers({
-  timeline: timelineReducer,
-  friend: friendReducer
-});
-
-const store = createStore(reducer);
-//디버깅을 위해 액션 처리가 끝날 때마다 상탯값을 콘솔에 출력
-store.subscribe(() => {
-  const state = store.getState();
-  console.log(state);
-});
-
-store.dispatch(addTimeline({ id: 1, desc: '뢀라뢀라~'}));
-store.dispatch(addTimeline({ id: 2, desc: '흐흐흐흐흐'}));
-store.dispatch(increseNextPage());
-store.dispatch(editTimeline({ id: 2, desc: '음?'}));
-store.dispatch(removeTimeline({ id: 1, desc: '뢀라뢀라~'}));
-
-store.dispatch(addFriend({ id: 1, desc: '백현'}));
-store.dispatch(addFriend({ id: 2, desc: '수호'}));
-store.dispatch(editFriend({ id: 2, desc: '카이'}));
-store.dispatch(removeFriend({ id: 1, desc: '백현'}));
-
 
 ReactDOM.render(
+  <Provider store={store}>
   <div>
     <FriendMain />
     <TimelineMain />
-  </div>,
+  </div>
+  </Provider>,
   document.getElementById('root')
 );
 
